@@ -1,0 +1,429 @@
+﻿<style>
+    .bodyinner {
+        padding:0px !important;
+    }
+    .upperspace {
+        margin:0px !important;
+    }
+</style>
+
+@{ 
+    var url = "https://tab.stage1.sullivancotter.com/views/Sample/SampleDashboard?:iid=1&:isGuestRedirectFromVizportal=y&:embed=y";
+}
+
+<span id="idspn"><a target="_blank" href=""></a></span>
+<div id="vizContainer" style="width:100%; height:900px;"></div>
+
+<script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+<script>
+    var tURL = '@(url)';
+</script>
+<script>
+    $(document).ready(function () {
+        document.domain = 'sullivancotter.com';
+    });
+
+    var zipCodes = [];
+    var popTypes = [];
+
+    var areas = [];
+    var defaultAreas = [];
+    areas.push({ Area: "Service Area 1", ZipCode: 55125, PopType: "Adults" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55126, PopType: "Childs" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55676, PopType: "Youth" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Youth" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Adults" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Childs" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55434, PopType: "Childs" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55098, PopType: "Childs" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55434, PopType: "Adults" });
+    areas.push({ Area: "Service Area 1", ZipCode: 55098, PopType: "Youth" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66125, PopType: "Adults" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66126, PopType: "Childs" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66676, PopType: "Youth" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Youth" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Adults" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Childs" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66434, PopType: "Childs" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66098, PopType: "Childs" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66434, PopType: "Adults" });
+    areas.push({ Area: "Service Area 2", ZipCode: 66098, PopType: "Youth" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88125, PopType: "Adults" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88126, PopType: "Childs" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88676, PopType: "Youth" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Youth" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Adults" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Childs" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88434, PopType: "Childs" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88098, PopType: "Childs" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88434, PopType: "Adults" });
+    areas.push({ Area: "Service Area 3", ZipCode: 88098, PopType: "Youth" });
+
+    defaultAreas.push({ Area: "Service Area 1", ZipCode: 55676, PopType: "Youth" });
+    defaultAreas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Adults" });
+    defaultAreas.push({ Area: "Service Area 1", ZipCode: 55434, PopType: "Childs" });
+    defaultAreas.push({ Area: "Service Area 2", ZipCode: 66676, PopType: "Youth" });
+    defaultAreas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Youth" });
+    defaultAreas.push({ Area: "Service Area 2", ZipCode: 66434, PopType: "Childs" });
+    defaultAreas.push({ Area: "Service Area 2", ZipCode: 66098, PopType: "Childs" });
+    defaultAreas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Adults" });
+    defaultAreas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Childs" });
+    defaultAreas.push({ Area: "Service Area 3", ZipCode: 88098, PopType: "Youth" });
+
+    //areas.push({ Area: "Service Area 1", ZipCode: 55125, PopType: "Adults", Default: "No" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55126, PopType: "Childs", Default: "No" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55676, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Adults", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55787, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55434, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55098, PopType: "Childs", Default: "No" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55434, PopType: "Adults", Default: "Yes" });
+    //areas.push({ Area: "Service Area 1", ZipCode: 55098, PopType: "Youth", Default: "No" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66125, PopType: "Adults", Default: "No" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66126, PopType: "Childs", Default: "No" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66676, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Adults", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66787, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66434, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66098, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66434, PopType: "Adults", Default: "Yes" });
+    //areas.push({ Area: "Service Area 2", ZipCode: 66098, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88125, PopType: "Adults", Default: "No" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88126, PopType: "Childs", Default: "No" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88676, PopType: "Youth", Default: "No" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Youth", Default: "Yes" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Adults", Default: "Yes" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88787, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88434, PopType: "Childs", Default: "No" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88098, PopType: "Childs", Default: "Yes" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88434, PopType: "Adults", Default: "No" });
+    //areas.push({ Area: "Service Area 3", ZipCode: 88098, PopType: "Youth", Default: "Yes" });
+
+
+    var defaultZIPS = [], defaultPopType = [], defaultServiceType = "Service Area 2";
+
+    for (var dz = 0; dz < defaultAreas.length; dz++) {
+        if (defaultAreas[dz].Area == defaultServiceType && defaultZIPS.indexOf(defaultAreas[dz].ZipCode) == -1) {
+            defaultZIPS.push(defaultAreas[dz].ZipCode);
+        }
+
+        if (defaultAreas[dz].Area == defaultServiceType && defaultPopType.indexOf(defaultAreas[dz].PopType) == -1) {
+            defaultPopType.push(defaultAreas[dz].PopType);
+        }
+    }
+    debugger;
+    function initViz() {
+        var containerDiv = document.getElementById("vizContainer"),
+            url = tURL.replace(/&amp;/g, '&'),
+            options = {
+                width: containerDiv.offsetWidth,
+                height: containerDiv.offsetHeight,
+                "Service Area": defaultServiceType,
+                "Zip Code": defaultZIPS,
+                "Pop Type":defaultPopType,
+                onFirstInteractive: function () {
+                    activeSheet = viz.getWorkbook().getActiveSheet();
+                    console.log(activeSheet.getSheetType());
+                    // this switch checks for the type of embedded content, in this case I want to find the sheet called Scatter Plot from a dashboard
+
+                    //viz.getWorkbook().activateSheetAsync("Sample").then(function (sheet) {
+                    //    worksheet = sheet;
+                    //    worksheet.getFiltersAsync().then(onSuccess, onError);
+                    //});
+
+
+                    switch (activeSheet.getSheetType()) {
+                        case 'worksheet':
+                            break;
+                        case 'dashboard':
+                            // On dashboards it is necessary to loop through the different sheets until you find the ones of interest
+                            worksheets = activeSheet.getWorksheets();
+
+                            for (i = 0; i < worksheets.length; i++) {
+                                switch (worksheets[i].getName()) {
+                                    case 'Sample':
+                                    case 'Sample3 Dashboard':
+                                        debugger;
+                                        console.log(worksheets[i].getName());
+                                        filterSheet = worksheets[i];
+                                        //viz.addEventListener(tableau.TableauEventName.FILTER_CHANGE, tableauFilterChanged);
+                                        viz.addEventListener(tableau.TableauEventName.FILTER_CHANGE, debounce(function (evt) { tableauFilterChanged(evt); }, 1500));
+                                        //viz.addEventListener(tableau.TableauEventName.MARKS_SELECTION, onMarksSelection);
+                                        //viz.addEventListener(tableau.TableauEventName.FILTER_CHANGE, debounce(function (evt) { tableauFilterChanged(evt); }, 1500));
+                                        //viz.addEventListener(tableau.TableauEventName.FILTER_CHANGE, debounce((tableauFilterChanged) => {
+                                        //    debugger;
+                                        //   // updateNarrative();
+                                        //}, 500));
+                                        break;
+                                }
+                            }
+                            break;
+                        case 'story':
+                            break;
+                    }
+                }
+            };
+
+        var viz = new tableau.Viz(containerDiv, url, options);
+
+        // Create a viz object and embed it in the container div.
+    }
+
+    function tableauFilterChanged(filt) {
+
+        filt.getFilterAsync().then(function (filter) {
+            zipCodes = [];
+            popTypes = [];
+
+            unSelectedZipCodes = [];
+            unSelectedPopTypes = [];
+
+            var fname = filter.getFieldName();
+            var ftype = filter.getFilterType();
+
+            if (fname == "Service Area") {
+                var values = filter.getAppliedValues();
+                var uniArea = [];
+
+                if (values.length == 0) {
+                    //If no area selected, unselect all child
+                    for (var k = 0; k < areas.length; k++) {
+                        if (unSelectedZipCodes.indexOf(areas[k].ZipCode) == -1) {
+                            unSelectedZipCodes.push(areas[k].ZipCode);
+                        }
+
+                        if (unSelectedPopTypes.indexOf(areas[k].PopType) == -1) {
+                            unSelectedPopTypes.push(areas[k].PopType);
+                        }
+                    }
+                }
+                else {
+
+                    //Build Selected area
+                    for (var l = 0; l < values.length; l++) {
+                        for (var k = 0; k < defaultAreas.length; k++) {
+                            if (values[l].value == defaultAreas[k].Area) {
+                                if (zipCodes.indexOf(defaultAreas[k].ZipCode) == -1) {
+                                    zipCodes.push(defaultAreas[k].ZipCode);
+                                }
+
+                                if (popTypes.indexOf(defaultAreas[k].PopType) == -1) {
+                                    popTypes.push(defaultAreas[k].PopType);
+                                }
+                            }
+
+                            //Unique Area
+                            if (uniArea.indexOf(defaultAreas[k].Area) == -1) {
+                                uniArea.push(defaultAreas[k].Area);
+                            }
+                        }
+                    }
+
+                    //Build unselected area
+                    for (var u = 0; u < uniArea.length; u++) {
+                        var found = false;
+
+                        for (var l = 0; l < values.length; l++) {
+                            if (values[l].value == uniArea[u].Area) {
+                                found = true;
+                            }
+                        }
+
+                        if (!found) {
+                            for (var k = 0; k < areas.length; k++) {
+                                if (uniArea[u] == areas[k].Area) {
+                                    if (unSelectedZipCodes.indexOf(areas[k].ZipCode) == -1) {
+                                        unSelectedZipCodes.push(areas[k].ZipCode);
+                                    }
+
+                                    if (unSelectedPopTypes.indexOf(areas[k].PopType) == -1) {
+                                        unSelectedPopTypes.push(areas[k].PopType);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            if (unSelectedZipCodes.length > 0)
+                filterSheet.applyFilterAsync("Zip Code", unSelectedZipCodes, tableau.FilterUpdateType.REMOVE);
+
+            if (unSelectedPopTypes.length > 0) {
+                var cleanUnSelectedList = [];
+                //debugger;
+                for (var i = 0; i < unSelectedPopTypes.length; i++) {
+
+                    var sli = popTypes.indexOf(unSelectedPopTypes[i]);
+                    if (sli == -1)
+                    {
+                        cleanUnSelectedList.push(unSelectedPopTypes[i]);
+                    }
+                }
+
+                if (cleanUnSelectedList.length > 0)
+                    filterSheet.applyFilterAsync("Pop Type", cleanUnSelectedList, tableau.FilterUpdateType.REMOVE);
+            }
+
+            if (zipCodes.length > 0)
+                filterSheet.applyFilterAsync("Zip Code", zipCodes, tableau.FilterUpdateType.ADD);
+
+            if (popTypes.length > 0)
+                filterSheet.applyFilterAsync("Pop Type", popTypes, tableau.FilterUpdateType.ADD);
+        });
+
+
+        //alert(zipCodes.length);
+        //for (var i = 0; i < filterName.length; i++) {
+        //    var fn = filterName[i];
+
+        //    if (filt.$4 == fn)
+        //        filterSheet.applyFilterAsync(fn, "My Org", tableau.FilterUpdateType.ADD);
+        //}
+    }
+
+    //function tableauFilterChanged(filt) {
+    //    debugger;
+    //    filt.getFilterAsync().then(reportSelectedFilter);
+
+    //    for (var z = 0; z < zipCodes.length; z++) {
+    //        filterSheet.applyFilterAsync("Zip Code", zipCodes[z], tableau.FilterUpdateType.ADD);
+    //    }
+    //    //alert(zipCodes.length);
+    //    //for (var i = 0; i < filterName.length; i++) {
+    //    //    var fn = filterName[i];
+
+    //    //    if (filt.$4 == fn)
+    //    //        filterSheet.applyFilterAsync(fn, "My Org", tableau.FilterUpdateType.ADD);
+    //    //}
+    //}
+
+    function reportSelectedFilter(filter) {
+
+        zipCodes = [];
+        popTypes = [];
+
+        // If I uncomment the below alert the alert will loop for about three to 4 times...
+
+        //alert("Capturing filter values");//+ filter.$9[0].value());
+        // let pairs = filter.filterValue();
+        // let pairs =filter.$9[0].value();
+        //let value = filter.getAppliedValues();
+        // If I am using the developer tool in a browser, pairs shows up as undefined but if I hover over "filter.$9" then I see the filter selected values
+        var fname = filter.getFieldName();
+        var ftype = filter.getFilterType();
+        
+
+        if (fname == "Service Area")
+        {
+            var values = filter.getAppliedValues();
+
+            for (var l = 0; l < values.length; l++) {
+                for (var k = 0; k < areas.length; k++) {
+                    if (values[l].value == areas[k].Area) {
+                        if (zipCodes.indexOf(areas[k].ZipCode) == -1) {
+                            zipCodes.push(areas[k].ZipCode);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //let pairs = filter.$9;
+        debugger;
+        //alert(pairs);
+
+    }
+
+
+    //function reportSelectedFilter(field) {
+
+    //    var fname = field.getFieldName();
+
+    //    var ftype = field.getFilterType();
+
+    //    if (fname == "Measure Names") {
+
+    //        var measureList = '';
+
+    //        values = field.getAppliedValues();
+
+    //        for (i = 0; i < values.length; i++) {
+
+    //            measureList += "<li>" + values[i].value + "\n";
+
+    //        }
+
+    //        document.getElementById('measure-names').innerHTML = "<ul>\n" + measureList + "\n</ul>\n";
+
+    //    }
+
+    //}
+
+
+    //function getFiltersAsync() {
+    //    // Get first worksheet in book
+    //    debugger;
+    //    var worksheet;
+    //    var filtersVal = '';
+    //    var onSuccess = function (filters) {
+    //        debugger;
+    //        $("#lblFiltersCount").text("This worksheet has " + filters.length + " filter(s) associated with it.");
+    //        $.each(filters, function (filter, i) {
+    //            // use .value property of each DataValue object
+    //            filtersVal += i.getFieldName() + ", ";
+    //            $("#lblFilterField").text(filtersVal);
+    //        });
+    //    };
+
+    //    var onError = function (err) {
+    //        debugger;
+    //        alert("Whoops");
+    //    };
+
+
+    //}
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+
+    function onMarksSelection(marksEvent) {
+        return marksEvent.getMarksAsync().then(reportSelectedMarks);
+    }
+
+    function reportSelectedMarks(marks) {
+        var html = "";
+
+        for (var markIndex = 0; markIndex < marks.length; markIndex++) {
+            var pairs = marks[markIndex].getPairs();
+            html += "<b>Mark " + markIndex + ":</b><ul>";
+
+            for (var pairIndex = 0; pairIndex < pairs.length; pairIndex++) {
+                var pair = pairs[pairIndex];
+                html += "<li><b>Field Name:</b> " + pair.fieldName;
+                html += "<br/><b>Value:</b> " + pair.formattedValue + "</li>";
+            }
+
+            html += "</ul>";
+        }
+
+        //var infoDiv = document.getElementById('markDetails');
+        //infoDiv.innerHTML = html;
+        alert(html);
+    }
+
+    initViz();
+</script>
+
