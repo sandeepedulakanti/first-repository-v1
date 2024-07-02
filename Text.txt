@@ -5,3 +5,5 @@ There is not content in this.
 Trying to edit this text file
 
 New edit from github website
+
+A new huge bug is fixed
